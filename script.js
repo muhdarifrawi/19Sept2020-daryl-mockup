@@ -1,24 +1,32 @@
-document.getElementById("calculate").setAttribute("onclick","calculate()");
 
+document.getElementById("calculate").setAttribute("onclick","calculate()");
+document.getElementById("returns").setAttribute("onchange","check()");
+document.getElementById("returnsValue").innerText = "6%";
+
+function check(){
+    let returns = document.getElementById("returns").value;
+    document.getElementById("returnsValue").innerText = returns + "%";
+    console.log(returns);
+}
 
 
 function calculate(){
     let notification = document.getElementById("notification");
-    let amount = document.getElementById("amount").value;
-    let age = document.getElementById("age").value; 
-    let invest = document.getElementById("invest").value; 
-    // console.log(amount);
-    // stringCheck(amount);
-    if (amount=="" || age=="" || invest==""){
+    let periods = document.getElementsByName("period");
+    for(i=0;i<periods.length;i++){
+        if(periods[i].checked){
+            period = periods[i].value;
+        }
+    }
+    let investYears = document.getElementById("investYears").value; 
+    let mthContribute = document.getElementById("mthContribute").value; 
+    let returns = document.getElementById("returns").value;
+    
+    console.log(returns);
+    if (period=="" || mthContribute=="" || investYears==""){
         notification.innerHTML = "<h3>Please fill all fields</h3>"    
     }
-    else if(stringCheck(amount)=="error A"){
-        notification.innerHTML = "<h3>Please enter in 0.00 format</h3>" 
-    }
-    else if(stringCheck(amount)=="error B"){
-        notification.innerHTML = "<h3>Please enter a value</h3>" 
-    }
-    else if(invest < 1 || invest > 99){
+    else if(investYears < 1 || investYears > 99){
         notification.innerHTML = "<h3>Please enter years to invest from 1 to 99 years</h3>" 
         console.log("invest value error")
     }
@@ -28,39 +36,5 @@ function calculate(){
     }
     else{
         notification.innerHTML = `<h3>${amount}</h3>`   
-    }
-}
-
-function stringCheck(amount){
-    // console.log(amount)
-    let passingCount = 0;
-    let excessiveDots = 0;
-
-    console.log(amount.slice(-3,-2));
-    
-    if(amount.slice(-3,-2) != "."){
-        return "error A";
-    }
-
-    for (i=0;i<amount.length;i++){
-        // console.log(amount[i]);
-        
-        for (j=0;j<=9;j++){
-            if (amount[i] == String(j)){
-                console.log(String(j), amount[i], passingCount);
-                passingCount += 1;
-                break;
-            }
-            else if (amount[i] == "."){
-                excessiveDots += 1;
-                passingCount += 1;
-                break;
-            }
-        }
-        
-    }
-    if(passingCount <= 3 || excessiveDots > 1 ){
-        console.log("type error", passingCount, excessiveDots);
-        return "error B";
     }
 }

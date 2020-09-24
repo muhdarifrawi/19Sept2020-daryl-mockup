@@ -2,17 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <link href="style.css" rel="stylesheet" type="text/css">
     <title>Document</title>
 </head>
 <body>
     <h1>Welcome to the finance calculator</h1>
     <div>
-        <label>Amount to invest: </label><br>
-        <input type="text" id="amount" required></input><br>
-        <label>Age: </label><br>
-        <input type="number" id="age" required></input><br>
-        <label>Years to invest: </label><br>
-        <input type="number" id="invest" required></input><br>
+        <label>Investment Period:</label>
+        <input type="radio" name="period" value=10 required>10  Years</input>
+        <input type="radio" name="period" value=20 required>20 Years</input><br>
+        <label>Years to Invest: </label><br>
+        <input type="number" id="investYears" required></input><br>
+        <label>Monthly Contribution: </label><br>
+        <input type="number" id="mthContribute" required></input><br>
+        <label>Expected Returns:</label><br>
+        <div class="slider">
+        <span id="returnsValue"></span>
+        <input type="range" min=4 max=8 id="returns"></input>
+        </div>
     </div>
     <button id="calculate">Calculate</button>
     <div id="notification">

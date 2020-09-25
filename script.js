@@ -12,7 +12,7 @@ function check(){
 let yearly = [];
 
 function calculate(){
-    console.log("calc success")
+    // console.log("calc success")
     let notification = document.getElementById("notification");
     let periods = document.getElementsByName("period");
     let period = 0;
@@ -25,7 +25,7 @@ function calculate(){
     let mthContribute = document.getElementById("mthContribute").value; 
     let returns = document.getElementById("returns").value;
     
-    console.log(period);
+    // console.log(period);
     if(yearly.length!=0){
         yearly = [];
     }
@@ -39,32 +39,36 @@ function calculate(){
     }
     else{
         returns = (returns/100) + 1;
-        let yrContribute = mthContribute * 12
-        firstYear(yrContribute,period,returns);
-        // console.log(amount);
-        nthYear(investYears,yrContribute,period,returns);
+        let yrContribute = mthContribute * 12;
+        let platformCost = yrContribute*0.975;
+        firstYear(yrContribute,period,returns,platformCost);
+        // nthYear(investYears,yrContribute,period,returns);
         notification.innerHTML = `<h3>${yearly[0]}</h3>`
         console.log(yearly);   
     }
 }
 
-function firstYear(yrContribute, period, returns){
+function firstYear(yrContribute, period, returns, platformCost){
     console.log("success");
     
     let welcomeBonus = 0;
     // console.log("returns conversion:", returns);
     if(period == 10){
         if (yrContribute >= 3600 && yrContribute < 120000){
-            welcomeBonus = 1.10;
-            let fyReturns = yrContribute*welcomeBonus*0.975*returns;
-            console.log(fyReturns, welcomeBonus);
+            welcomeBonus = yrContribute * 1.10;
+            let totalCost = (yrContribute+welcomeBonus)-platformCost;
+            let fyReturns = totalCost*returns;
+            console.log(totalCost, fyReturns, welcomeBonus);
+            fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;
         }
         else if (yrContribute >= 120000){
-            welcomeBonus = 1.40;
-            let fyReturns = yrContribute*welcomeBonus*0.975*returns;
-            // console.log(fyReturns, welcomeBonus);
+            welcomeBonus = yrContribute * 1.40;
+            let totalCost = (yrContribute+welcomeBonus)-platformCost;
+            let fyReturns = totalCost*returns;
+            console.log(totalCost, fyReturns, welcomeBonus);
+            fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;
         }
@@ -74,16 +78,20 @@ function firstYear(yrContribute, period, returns){
     }
     else if(period == 20){
         if (yrContribute > 2400 && yrContribute < 96000){
-            welcomeBonus = 1.30;
-            let fyReturns = yrContribute*welcomeBonus*0.975*returns;
-            // console.log(fyReturns, welcomeBonus);
+            welcomeBonus = yrContribute * 1.30;
+            let totalCost = (yrContribute+welcomeBonus)-platformCost;
+            let fyReturns = totalCost*returns;
+            console.log(totalCost, fyReturns, welcomeBonus);
+            fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;
         }
         else if (yrContribute >= 96000){
-            welcomeBonus = 1.60;
-            let fyReturns = yrContribute*welcomeBonus*0.975*returns;
-            // console.log(fyReturns, welcomeBonus);
+            welcomeBonus = yrContribute * 1.60;
+            let totalCost = (yrContribute+welcomeBonus)-platformCost;
+            let fyReturns = totalCost*returns;
+            console.log(totalCost, fyReturns, welcomeBonus);
+            fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;
         }
@@ -99,7 +107,9 @@ function firstYear(yrContribute, period, returns){
 function nthYear(investYears,yrContribute,returns){
     let nth = investYears-1;
     for(i=0;i<nth;i++){
-        let nthReturns = yearly[i]*yrContribute*0.975*returns;
+        let nthReturns = (((yearly[i]*0.975)+yrContribute)*returns);
+        nthReturns = Number((nthReturns).toFixed(2));
+        console.log(yearly[i],i,nthReturns);
         yearly.push(nthReturns);
     }
 

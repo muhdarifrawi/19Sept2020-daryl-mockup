@@ -39,17 +39,18 @@ function calculate(){
     }
     else{
         returns = (returns/100) + 1;
-        firstYear(mthContribute,period,returns);
+        let yrContribute = mthContribute * 12
+        firstYear(yrContribute,period,returns);
         // console.log(amount);
-        nthYear(investYears,mthContribute,period,returns);
+        nthYear(investYears,yrContribute,period,returns);
         notification.innerHTML = `<h3>${yearly[0]}</h3>`
         console.log(yearly);   
     }
 }
 
-function firstYear(mthContribute, period, returns){
+function firstYear(yrContribute, period, returns){
     console.log("success");
-    let yrContribute = mthContribute * 12
+    
     let welcomeBonus = 0;
     // console.log("returns conversion:", returns);
     if(period == 10){
@@ -95,9 +96,8 @@ function firstYear(mthContribute, period, returns){
     }
 }
 
-function nthYear(investYears,mthContribute,returns){
+function nthYear(investYears,yrContribute,returns){
     let nth = investYears-1;
-    let yrContribute = mthContribute * 12
     for(i=0;i<nth;i++){
         let nthReturns = yearly[i]*yrContribute*0.975*returns;
         yearly.push(nthReturns);

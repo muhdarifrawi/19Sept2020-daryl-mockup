@@ -49,12 +49,33 @@ function calculate(){
         nthYear(investYears,yrContribute,period,returns,platformCost);
         display = ``;
         for(i in yearly){
-            yearResult = `<h3>${yearly[i]}</h3>`;
-            display += yearResult;
+            x = yearly[i].toString();
+            if(x.slice(x.length-4,x.length-3)=="."){
+                console.log("slice success");
+                x = x.slice(0,x.length-1);
+                yearResult = `<h3>${x}</h3>`;
+                display += yearResult;
+            }
+            else if(x.slice(x.length-2,x.length-1)=="."){
+                x = x + "0";
+                yearResult = `<h3>${x}</h3>`;
+                display += yearResult;
+            }
+            else{
+                yearResult = `<h3>${x}</h3>`;
+                display += yearResult;
+            }
+            
         }
         notification.innerHTML = display;
         // notification.innerHTML = `<h3>${yearly[0]}</h3>`
-        console.log(yearly);   
+        console.log(yearly);
+        // x = yearly[2].toString();
+        // console.log(x.slice(x.length-4,x.length-3));   
+        // y = yearly[1].toString();
+        // console.log(y.slice(y.length-3,y.length-2)); 
+        // z = 369.2.toString();
+        // console.log(z.slice(z.length-2,z.length-1)); 
     }
 }
 

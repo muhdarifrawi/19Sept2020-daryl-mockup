@@ -137,19 +137,23 @@ function showReturns(){
             if(x.slice(x.length-4,x.length-3)=="."){
                 console.log("slice success");
                 x = x.slice(0,x.length-1);
-                yearResult = `<h3>${x}</h3>`;
+                yearResult = `<h3>Year ${parseInt(i)+1}: $${x}</h3>`;
                 display += yearResult;
             }
             else if(x.slice(x.length-2,x.length-1)=="."){
                 x = x + "0";
-                yearResult = `<h3>${x}</h3>`;
+                yearResult = `<h3>Year ${parseInt(i)+1}: $${x}</h3>`;
                 display += yearResult;
             }
             else{
-                yearResult = `<h3>${x}</h3>`;
+                yearResult = `<h3>Year ${parseInt(i)+1}: $${x}</h3>`;
                 display += yearResult;
             }
             
         }
         notification.innerHTML = display;
+}
+
+function visualData(){
+
 }

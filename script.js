@@ -33,7 +33,11 @@ function calculate(){
         notification.innerHTML = `<h3>Please enter years to invest from ${period} to 99 years</h3>`
         return console.log("invest value error")
     }
-    else if(mthContribute < 300){
+    else if(period == 10 && mthContribute < 300){
+        notification.innerHTML = "<h3>Please enter a minimum value of 300 for monthly contributions</h3>" 
+        return console.log("invest value error")
+    }
+    else if(period == 20 && mthContribute < 200){
         notification.innerHTML = "<h3>Please enter a minimum value of 300 for monthly contributions</h3>" 
         return console.log("invest value error")
     }
@@ -43,7 +47,7 @@ function calculate(){
         let platformCost = yrContribute*0.975;
         firstYear(yrContribute,period,returns,platformCost);
         // nthYear(investYears,yrContribute,period,returns);
-        notification.innerHTML = `<h3>${yearly[0]}</h3>`
+        // notification.innerHTML = `<h3>${yearly[0]}</h3>`
         console.log(yearly);   
     }
 }
@@ -58,7 +62,7 @@ function firstYear(yrContribute, period, returns, platformCost){
             welcomeBonus = yrContribute * 1.10;
             let totalCost = (yrContribute+welcomeBonus)-platformCost;
             let fyReturns = totalCost*returns;
-            console.log(totalCost, fyReturns, welcomeBonus);
+            console.log("case 1", yrContribute, welcomeBonus, platformCost, fyReturns);
             fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;
@@ -67,7 +71,7 @@ function firstYear(yrContribute, period, returns, platformCost){
             welcomeBonus = yrContribute * 1.40;
             let totalCost = (yrContribute+welcomeBonus)-platformCost;
             let fyReturns = totalCost*returns;
-            console.log(totalCost, fyReturns, welcomeBonus);
+            console.log("case 2", yrContribute, welcomeBonus, platformCost, fyReturns);
             fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;
@@ -77,20 +81,20 @@ function firstYear(yrContribute, period, returns, platformCost){
         }
     }
     else if(period == 20){
-        if (yrContribute > 2400 && yrContribute < 96000){
+        if (yrContribute >= 2400 && yrContribute < 9600){
             welcomeBonus = yrContribute * 1.30;
             let totalCost = (yrContribute+welcomeBonus)-platformCost;
             let fyReturns = totalCost*returns;
-            console.log(totalCost, fyReturns, welcomeBonus);
+            console.log("case 3", yrContribute, welcomeBonus, platformCost, fyReturns);
             fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;
         }
-        else if (yrContribute >= 96000){
+        else if (yrContribute >= 9600){
             welcomeBonus = yrContribute * 1.60;
             let totalCost = (yrContribute+welcomeBonus)-platformCost;
             let fyReturns = totalCost*returns;
-            console.log(totalCost, fyReturns, welcomeBonus);
+            console.log("case 4", yrContribute, welcomeBonus, platformCost, fyReturns);
             fyReturns = Number((fyReturns).toFixed(2));
             yearly.push(fyReturns);
             return;

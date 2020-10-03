@@ -46,7 +46,7 @@ function calculate(){
         let yrContribute = mthContribute * 12;
         let platformCost = yrContribute*0.975;
         firstYear(yrContribute,period,returns,platformCost);
-        nthYear(investYears,yrContribute,period,returns);
+        nthYear(investYears,yrContribute,period,returns,platformCost);
         display = ``;
         for(i in yearly){
             yearResult = `<h3>${yearly[i]}</h3>`;
@@ -114,12 +114,13 @@ function firstYear(yrContribute, period, returns, platformCost){
     }
 }
 
-function nthYear(investYears,yrContribute,returns){
+function nthYear(investYears,yrContribute,period,returns,platformCost){
     let nth = investYears-1;
     for(i=0;i<nth;i++){
-        let nthReturns = (((yearly[i]*0.975)+yrContribute)*returns);
-        nthReturns = Number((nthReturns).toFixed(2));
-        console.log(yearly[i],i,nthReturns);
+        let totalCost = (yrContribute + yearly[i])-platformCost;
+        let nthReturns = totalCost*returns;
+        nthReturns = Number((nthReturns).toFixed(3));
+        console.log("year",i+2, yrContribute, yearly[i], platformCost, nthReturns, totalCost);
         yearly.push(nthReturns);
     }
 

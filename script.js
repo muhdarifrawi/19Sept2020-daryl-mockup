@@ -116,11 +116,19 @@ function firstYear(yrContribute, period, returns, platformCost){
 
 function nthYear(investYears,yrContribute,period,returns,platformCost){
     let nth = investYears-1;
-    for(i=0;i<nth;i++){
+    for(i=0;i<period-1;i++){
         let totalCost = (yrContribute + yearly[i])-platformCost;
         let nthReturns = totalCost*returns;
         nthReturns = Number((nthReturns).toFixed(3));
-        console.log("year",i+2, yrContribute, yearly[i], platformCost, nthReturns, totalCost);
+        console.log("year",i+2, yrContribute, yearly[i], platformCost, nthReturns, totalCost, "part a");
+        yearly.push(nthReturns);
+    }
+    for(i=period-1;i<nth;i++){
+        let revisedPlatformCost = yrContribute*0.996;
+        let totalCost = (yrContribute + yearly[i])-revisedPlatformCost;
+        let nthReturns = totalCost*returns;
+        nthReturns = Number((nthReturns).toFixed(3));
+        console.log("year",i+2, yrContribute, yearly[i], platformCost, nthReturns, totalCost, "part b");
         yearly.push(nthReturns);
     }
 

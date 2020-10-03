@@ -46,7 +46,13 @@ function calculate(){
         let yrContribute = mthContribute * 12;
         let platformCost = yrContribute*0.975;
         firstYear(yrContribute,period,returns,platformCost);
-        // nthYear(investYears,yrContribute,period,returns);
+        nthYear(investYears,yrContribute,period,returns);
+        display = ``;
+        for(i in yearly){
+            yearResult = `<h3>${yearly[i]}</h3>`;
+            display += yearResult;
+        }
+        notification.innerHTML = display;
         // notification.innerHTML = `<h3>${yearly[0]}</h3>`
         console.log(yearly);   
     }

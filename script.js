@@ -47,8 +47,8 @@ function calculate(){
         let platformCost = yrContribute*0.975;
         firstYear(yrContribute,period,returns,platformCost);
         nthYear(investYears,yrContribute,period,returns,platformCost);
-        showReturns();
-        
+        // showReturns();
+        visualData(yrContribute,investYears);
         console.log(yearly);
         
     }
@@ -154,6 +154,26 @@ function showReturns(){
         notification.innerHTML = display;
 }
 
-function visualData(){
+function visualData(yrContribute,investYears){
+    let sumAll = function sumAll(accumulator,currentValue){return accumulator + currentValue};
+    let totalReturns = yearly.reduce(sumAll); 
+    totalReturns = Number((totalReturns).toFixed(2));
+    let totalInvested = yrContribute * investYears;
+    totalInvested = Number((totalInvested).toFixed(2));
+    let totalReturnOfInvestment = totalReturns - totalInvested;
+    totalReturnOfInvestment = Number((totalReturnOfInvestment).toFixed(2));
+    let percentageOfGrowth = (totalReturns/totalInvested)
+    percentageOfGrowth = Number((percentageOfGrowth).toFixed(2));
 
+    display = `
+        <h3>Total Returns:</h3>
+        <p>$${totalReturns}</p>
+        <h3>Total Invested:</h3>
+        <p>$${totalInvested}</p>
+        <h3>Total Returns of Investment:</h3>
+        <p>$${totalReturnOfInvestment}</p>
+        <h3>Percentage of Growth:</h3>
+        <p>${percentageOfGrowth}%</p>
+    `
+    notification.innerHTML = display;
 }

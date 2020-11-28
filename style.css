@@ -2,3 +2,26 @@
     display:flex;
     align-items:center;
 }
+
+#display-values{
+    display:flex;
+    justify-content:center;
+}
+
+table{
+    width:90vw;
+}
+
+tr{
+    text-align:center;
+}
+
+td{
+    height: 1.5em;
+    margin: 20px;
+}
+
+tr:hover{
+    cursor:pointer;
+    background-color:lime;
+}

@@ -71,16 +71,37 @@ function welcomeBonus(mC){
 }
 
 // function to display the values
+// function displayValues(yearly){
+//     let display = ``;
+    
+//     for(i in yearly){
+//         // console.log(each.toFixed(2));
+//         display += `<p>Year ${parseInt(i)+1} ${yearly[i].toFixed(2)}</p>`;
+//     }
+//     document.getElementById("display-values").innerHTML = display;
+// }
+
 function displayValues(yearly){
-    let display = ``;
+    let display = `
+    <tr>
+        <th></th>
+        <th>10 Year Policy</th>
+        <th>20 Year Policy</th>
+    </tr>
+    `;
     
     for(i in yearly){
         // console.log(each.toFixed(2));
-        display += `<p>Year ${parseInt(i)+1} ${yearly[i].toFixed(2)}</p>`;
+        display += `
+        <tr>
+            <td>Year ${parseInt(i)+1}</td>      
+            <td>${yearly[i].toFixed(2)}</td>     
+            <td>${yearly[i].toFixed(2)}</td>      
+        </tr>
+        `;
     }
-    document.getElementById("display-values").innerHTML = display;
+    document.getElementsByTagName("table")[0].innerHTML = display;
 }
-
 
 // mC is month contribute
 // iY is investYears

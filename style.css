@@ -34,3 +34,7 @@ td{
 .year{
     font-weight:bold;
 }
+
+.money{
+    letter-spacing:0.07em;
+}

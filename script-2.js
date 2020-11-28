@@ -105,8 +105,8 @@ function displayValues(yearly1,yearly2){
         display += `
         <tr  class="info">
             <td class="year">Year ${parseInt(i)+1}</td>      
-            <td>${yearly1[i].toFixed(2)}</td>     
-            <td>${yearly2[i].toFixed(2)}</td>      
+            <td class="money">${yearly1[i].toFixed(2)}</td>     
+            <td class="money">${yearly2[i].toFixed(2)}</td>      
         </tr>
         `;
     }

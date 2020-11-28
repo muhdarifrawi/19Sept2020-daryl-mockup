@@ -45,6 +45,32 @@ function inputValidation(){
     }
 }
 
+// check on the welcome bonus
+// welcomeBonus(mC);
+
+function welcomeBonus(mC){
+    if (mC < 1000 && checkPeriod() == 10){
+        console.log("10%");
+        return 1.1;
+    }
+    else if (mC >= 1000 && checkPeriod() == 10){
+        console.log("40%");
+        return 1.4;
+    }
+    else if (mC < 800 && checkPeriod() == 20){
+        console.log("30%");
+        return 1.3;
+    }
+    else if (mC >= 800 && checkPeriod() == 20){
+        console.log("60%");
+        return 1.6;
+    }
+    else{
+        console.log("welcomeBonus unexpected error");
+    }
+}
+
+
 // mC is month contribute
 // iY is investYears
 function calculate(iY,mC){
@@ -69,29 +95,7 @@ function calculate(iY,mC){
     }
     
     
-    // check on the welcome bonus
-    // welcomeBonus(mC);
-
+    
 }
 
-function welcomeBonus(mC){
-    if (mC < 1000 && checkPeriod() == 10){
-        console.log("10%");
-        return 1.1;
-    }
-    else if (mC >= 1000 && checkPeriod() == 10){
-        console.log("40%");
-        return 1.4;
-    }
-    else if (mC < 800 && checkPeriod() == 20){
-        console.log("30%");
-        return 1.3;
-    }
-    else if (mC >= 800 && checkPeriod() == 20){
-        console.log("60%");
-        return 1.6;
-    }
-    else{
-        console.log("welcomeBonus unexpected error");
-    }
-}
+

@@ -16,12 +16,21 @@ tr{
     text-align:center;
 }
 
+th{
+    font-size:18pt;
+    height:2em;
+}
+
 td{
     height: 1.5em;
     margin: 20px;
 }
 
-tr:hover{
+.info:hover{
     cursor:pointer;
     background-color:lime;
+}
+
+.year{
+    font-weight:bold;
 }

@@ -49,25 +49,35 @@ function inputValidation(){
 // welcomeBonus(mC);
 
 function welcomeBonus(mC){
-    if (mC < 1000 && checkPeriod() == 10){
+    let rates =[];
+    if (mC < 1000){
         console.log("10%");
-        return 1.1;
+        // return 1.1;
+        rates.push(1.1);
     }
-    else if (mC >= 1000 && checkPeriod() == 10){
+    else if (mC >= 1000){
         console.log("40%");
-        return 1.4;
-    }
-    else if (mC < 800 && checkPeriod() == 20){
-        console.log("30%");
-        return 1.3;
-    }
-    else if (mC >= 800 && checkPeriod() == 20){
-        console.log("60%");
-        return 1.6;
+        // return 1.4;
+        rates.push(1.4);
     }
     else{
         console.log("welcomeBonus unexpected error");
     }
+    if (mC < 800){
+        console.log("30%");
+        // return 1.3;
+        rates.push(1.3);
+    }
+    else if (mC >= 800){
+        console.log("60%");
+        // return 1.6;
+        rates.push(1.6);
+    }
+    else{
+        console.log("welcomeBonus unexpected error");
+    }
+    console.log(rates);
+    return rates;
 }
 
 // function to display the values
@@ -81,7 +91,7 @@ function welcomeBonus(mC){
 //     document.getElementById("display-values").innerHTML = display;
 // }
 
-function displayValues(yearly){
+function displayValues(yearly1,yearly2){
     let display = `
     <tr>
         <th></th>
@@ -90,13 +100,13 @@ function displayValues(yearly){
     </tr>
     `;
     
-    for(i in yearly){
+    for(i in yearly1){
         // console.log(each.toFixed(2));
         display += `
-        <tr>
-            <td>Year ${parseInt(i)+1}</td>      
-            <td>${yearly[i].toFixed(2)}</td>     
-            <td>${yearly[i].toFixed(2)}</td>      
+        <tr  class="info">
+            <td class="year">Year ${parseInt(i)+1}</td>      
+            <td>${yearly1[i].toFixed(2)}</td>     
+            <td>${yearly2[i].toFixed(2)}</td>      
         </tr>
         `;
     }
@@ -106,27 +116,35 @@ function displayValues(yearly){
 // mC is month contribute
 // iY is investYears
 function calculate(iY,mC){
-    let yearly = [];
-    let totalInvested = 0;
+    let yearly1 = [];
+    let yearly2 = [];
+    let totalInvested1 = 0;
+    let totalInvested2 = 0;
     for (count=1;count<=iY;count++){
         if (count==1){
-            totalInvested = (mC*12) * welcomeBonus(mC) * 0.975 * (returns()/100+1);
-            yearly.push(totalInvested);
+            totalInvested1 = (mC*12) * welcomeBonus(mC)[0] * 0.975 * (returns()/100+1);
+            totalInvested2 = (mC*12) * welcomeBonus(mC)[1] * 0.975 * (returns()/100+1);
+            yearly1.push(totalInvested1);
+            yearly2.push(totalInvested2);
             // console.log(`year ${count}`,totalInvested.toFixed(2));
         }
         else if (count<=10){
-            totalInvested = (yearly[count-2]+(mC*12)) * 0.975 * (returns()/100+1);
-            yearly.push(totalInvested);
+            totalInvested1 = (yearly1[count-2]+(mC*12)) * 0.975 * (returns()/100+1);
+            totalInvested2 = (yearly2[count-2]+(mC*12)) * 0.975 * (returns()/100+1);
+            yearly1.push(totalInvested1);
+            yearly2.push(totalInvested2);
             // console.log(`year ${count}`,totalInvested.toFixed(2));
         }
         else{
-            totalInvested = (yearly[count-2]+(mC*12)) * 0.996 * (returns()/100+1);
-            yearly.push(totalInvested);
+            totalInvested1 = (yearly1[count-2]+(mC*12)) * 0.996 * (returns()/100+1);
+            totalInvested2 = (yearly2[count-2]+(mC*12)) * 0.996 * (returns()/100+1);
+            yearly1.push(totalInvested1);
+            yearly2.push(totalInvested2);
             // console.log(`year ${count}`,totalInvested.toFixed(2));
         }
     }
     
-    displayValues(yearly);
+    displayValues(yearly1,yearly2);
     
 }
 

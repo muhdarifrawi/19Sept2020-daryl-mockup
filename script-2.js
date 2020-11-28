@@ -70,6 +70,14 @@ function welcomeBonus(mC){
     }
 }
 
+// function to display the values
+function displayValues(yearly){
+    for(each of yearly){
+        console.log(each.toFixed(2));
+        
+    }
+}
+
 
 // mC is month contribute
 // iY is investYears
@@ -80,21 +88,21 @@ function calculate(iY,mC){
         if (count==1){
             totalInvested = (mC*12) * welcomeBonus(mC) * 0.975 * (returns()/100+1);
             yearly.push(totalInvested);
-            console.log(`year ${count}`,totalInvested.toFixed(2));
+            // console.log(`year ${count}`,totalInvested.toFixed(2));
         }
         else if (count<=10){
             totalInvested = (yearly[count-2]+(mC*12)) * 0.975 * (returns()/100+1);
             yearly.push(totalInvested);
-            console.log(`year ${count}`,totalInvested.toFixed(2));
+            // console.log(`year ${count}`,totalInvested.toFixed(2));
         }
         else{
             totalInvested = (yearly[count-2]+(mC*12)) * 0.996 * (returns()/100+1);
             yearly.push(totalInvested);
-            console.log(`year ${count}`,totalInvested.toFixed(2));
+            // console.log(`year ${count}`,totalInvested.toFixed(2));
         }
     }
     
-    
+    displayValues(yearly);
     
 }
 

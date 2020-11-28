@@ -72,10 +72,13 @@ function welcomeBonus(mC){
 
 // function to display the values
 function displayValues(yearly){
-    for(each of yearly){
-        console.log(each.toFixed(2));
-        
+    let display = ``;
+    
+    for(i in yearly){
+        // console.log(each.toFixed(2));
+        display += `<p>Year ${parseInt(i)+1} ${yearly[i].toFixed(2)}</p>`;
     }
+    document.getElementById("display-values").innerHTML = display;
 }
 
 

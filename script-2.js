@@ -27,16 +27,20 @@ function inputValidation(){
     let investYears = document.getElementById("investYears").value;
     // get monthly contributions
     let mthContribute = document.getElementById("mthContribute").value;
-    if(investYears < checkPeriod() || investYears > 99){
-        notification.innerHTML = `<h3>Please enter years to invest from ${checkPeriod()} to 99 years</h3>`
+    // get age
+    let age = document.getElementById("age").value;
+    // get display
+    let display = document.getElementById("display-values");
+    if(investYears > 99){
+        display.innerHTML = `<h3>Please enter years to invest from 1 to 99 years</h3>`
         return console.log("invest value error");
     }
-    else if(checkPeriod() == 10 && mthContribute < 300){
-        notification.innerHTML = "<h3>Please enter a minimum value of 300 for monthly contributions</h3>" 
+    if(age < 21){
+        display.innerHTML = `<h3>You must be above 21 to apply for this investment</h3>`
         return console.log("invest value error");
     }
-    else if(checkPeriod() == 20 && mthContribute < 200){
-        notification.innerHTML = "<h3>Please enter a minimum value of 300 for monthly contributions</h3>" 
+    else if(mthContribute < 200){
+        display.innerHTML = "<h3>Please enter a minimum value of 200 for monthly contributions</h3>" 
         return console.log("invest value error");
     }
     else{
@@ -92,9 +96,15 @@ function welcomeBonus(mC){
 // }
 
 function displayValues(yearly1,yearly2){
+    if(document.getElementsByTagName("table").length==0){
+        document.getElementById("display-values").innerHTML = "<table></table>";
+    }
+
+    let age = document.getElementById("age").value;
     let display = `
     <tr>
         <th></th>
+        <th>Age</th>
         <th>10 Year Policy</th>
         <th>20 Year Policy</th>
     </tr>
@@ -113,6 +123,7 @@ function displayValues(yearly1,yearly2){
         display += `
         <tr  class="info">
             <td class="year">Year ${parseInt(i)+1}</td>      
+            <td>${parseInt(i)+parseInt(age)}</td>      
             <td class="money">$${yearlyValue1}</td>     
             <td class="money">$${yearlyValue2}</td>      
         </tr>

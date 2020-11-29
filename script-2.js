@@ -103,15 +103,18 @@ function displayValues(yearly1,yearly2){
     for(i in yearly1){
         // console.log(yearly1[0].toFixed(2).slice(-3,-2));
         let decimal = yearly1[0].toFixed(2).slice(-3,-2);
+        let yearlyValue1=yearly1[i].toFixed(2);
+        let yearlyValue2=yearly2[i].toFixed(2);
+        
         if(decimal=="."){
-            let yearlyValue1=yearly1[0].toFixed(2);
-            console.log(yearlyValue1.slice(0,-6)+","+yearlyValue1.slice(-6));
+            yearlyValue1 = yearlyValue1.slice(0,-6)+","+yearlyValue1.slice(-6);
+            yearlyValue2 = yearlyValue2.slice(0,-6)+","+yearlyValue2.slice(-6);
         };
         display += `
         <tr  class="info">
             <td class="year">Year ${parseInt(i)+1}</td>      
-            <td class="money">${yearly1[i].toFixed(2)}</td>     
-            <td class="money">${yearly2[i].toFixed(2)}</td>      
+            <td class="money">$${yearlyValue1}</td>     
+            <td class="money">$${yearlyValue2}</td>      
         </tr>
         `;
     }

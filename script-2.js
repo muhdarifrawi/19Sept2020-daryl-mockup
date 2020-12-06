@@ -84,18 +84,7 @@ function welcomeBonus(mC){
     return rates;
 }
 
-// function to display the values
-// function displayValues(yearly){
-//     let display = ``;
-    
-//     for(i in yearly){
-//         // console.log(each.toFixed(2));
-//         display += `<p>Year ${parseInt(i)+1} ${yearly[i].toFixed(2)}</p>`;
-//     }
-//     document.getElementById("display-values").innerHTML = display;
-// }
-
-function displayValues(yearly1,yearly2){
+function displayValues(yearly1,yearly2,mC){
     if(document.getElementsByTagName("table").length==0){
         document.getElementById("display-values").innerHTML = "<table></table>";
     }
@@ -105,27 +94,49 @@ function displayValues(yearly1,yearly2){
     <tr>
         <th></th>
         <th>Age</th>
+        <th>Total Commitment</th>
         <th>10 Year Policy</th>
+        <th>Dividend</th>
         <th>20 Year Policy</th>
+        <th>Dividend</th>
     </tr>
     `;
+    
     
     for(i in yearly1){
         // console.log(yearly1[0].toFixed(2).slice(-3,-2));
         let decimal = yearly1[0].toFixed(2).slice(-3,-2);
         let yearlyValue1=yearly1[i].toFixed(2);
         let yearlyValue2=yearly2[i].toFixed(2);
-        
-        if(decimal=="."){
+        let dividend1 = ((yearly1[i]*(returns()/100))/12).toFixed(2);
+        let dividend2 = ((yearly2[i]*(returns()/100))/12).toFixed(2);
+        let totalCommitment = (parseInt(i)+1)*(mC*12);
+        console.log(String(totalCommitment).length);
+
+        if(decimal=="." && yearlyValue1.length > 6){
             yearlyValue1 = yearlyValue1.slice(0,-6)+","+yearlyValue1.slice(-6);
             yearlyValue2 = yearlyValue2.slice(0,-6)+","+yearlyValue2.slice(-6);
         };
+        if(decimal=="." && dividend1.length > 6){
+            dividend1 = dividend1.slice(0,-6)+","+dividend1.slice(-6);
+            dividend2 = dividend2.slice(0,-6)+","+dividend2.slice(-6);
+        };
+        if(String(totalCommitment).length > 6 ){
+            totalCommitment = String(totalCommitment).slice(0,-4)+","+String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
+        }
+        else if(String(totalCommitment).length > 3 ){
+            totalCommitment = String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
+        };
+        
         display += `
         <tr  class="info">
             <td class="year">Year ${parseInt(i)+1}</td>      
-            <td>${parseInt(i)+parseInt(age)}</td>      
-            <td class="money">$${yearlyValue1}</td>     
+            <td>${parseInt(i)+parseInt(age)}</td>
+            <td class="money">$${totalCommitment}</td>      
+            <td class="money">$${yearlyValue1}</td>
+            <td class="money">$${dividend1}</td>     
             <td class="money">$${yearlyValue2}</td>      
+            <td class="money">$${dividend2}</td>
         </tr>
         `;
     }
@@ -163,7 +174,7 @@ function calculate(iY,mC){
         }
     }
     
-    displayValues(yearly1,yearly2);
+    displayValues(yearly1,yearly2,mC);
     
 }
 

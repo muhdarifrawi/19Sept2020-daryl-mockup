@@ -10,3 +10,6 @@
 
 # personal notes
 notes.md
+
+# env variables
+.env

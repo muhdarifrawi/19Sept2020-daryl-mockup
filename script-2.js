@@ -1,7 +1,7 @@
 document.getElementById("calculate").setAttribute("onclick","inputValidation()");
-document.getElementById("returns").setAttribute("onchange","returns()");
+// document.getElementById("returns").setAttribute("onchange","returns()");
 // sets initial returns display to 6%
-document.getElementById("returnsValue").innerText = "6%";
+// document.getElementById("returnsValue").innerText = "6%";
 
 function returns(){
     let returns = document.getElementById("returns").value;
@@ -84,7 +84,7 @@ function welcomeBonus(mC){
     return rates;
 }
 
-function displayValues(yearly1,yearly2,mC){
+function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
     if(document.getElementsByTagName("table").length==0){
         document.getElementById("display-values").innerHTML = "<table></table>";
     }
@@ -95,48 +95,54 @@ function displayValues(yearly1,yearly2,mC){
         <th></th>
         <th>Age</th>
         <th>Total Commitment</th>
-        <th>10 Year Policy</th>
+        <th>10 Year Horizon</th>
         <th>Dividend</th>
-        <th>20 Year Policy</th>
+        <th>20 Year Horizon</th>
         <th>Dividend</th>
     </tr>
     `;
     
     
-    for(i in yearly1){
+    for(i in yearly1High){
         // console.log(yearly1[0].toFixed(2).slice(-3,-2));
-        let decimal = yearly1[0].toFixed(2).slice(-3,-2);
-        let yearlyValue1=yearly1[i].toFixed(2);
-        let yearlyValue2=yearly2[i].toFixed(2);
-        let dividend1 = ((yearly1[i]*(returns()/100))/12).toFixed(2);
-        let dividend2 = ((yearly2[i]*(returns()/100))/12).toFixed(2);
+        // let decimal = yearly1[0].toFixed(2).slice(-3,-2);
+        let yearlyValue1High=yearly1High[i].toFixed(2);
+        let yearlyValue2High=yearly2High[i].toFixed(2);
+        let yearlyValue1Low=yearly1Low[i].toFixed(2);
+        let yearlyValue2Low=yearly2Low[i].toFixed(2);
+        // HIGH RETURNS = 1.12
+        let dividend1High = ((yearly1High[i]*1.12)/12).toFixed(2);
+        let dividend2High = ((yearly2High[i]*1.12)/12).toFixed(2);
+        // LOW RETURNS = 1.04
+        let dividend1Low = ((yearly1Low[i]*1.04)/12).toFixed(2);
+        let dividend2Low = ((yearly2Low[i]*1.04)/12).toFixed(2);
         let totalCommitment = (parseInt(i)+1)*(mC*12);
         console.log(String(totalCommitment).length);
 
-        if(decimal=="." && yearlyValue1.length > 6){
-            yearlyValue1 = yearlyValue1.slice(0,-6)+","+yearlyValue1.slice(-6);
-            yearlyValue2 = yearlyValue2.slice(0,-6)+","+yearlyValue2.slice(-6);
-        };
-        if(decimal=="." && dividend1.length > 6){
-            dividend1 = dividend1.slice(0,-6)+","+dividend1.slice(-6);
-            dividend2 = dividend2.slice(0,-6)+","+dividend2.slice(-6);
-        };
-        if(String(totalCommitment).length > 6 ){
-            totalCommitment = String(totalCommitment).slice(0,-4)+","+String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
-        }
-        else if(String(totalCommitment).length > 3 ){
-            totalCommitment = String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
-        };
+        // if(decimal=="." && yearlyValue1.length > 6){
+        //     yearlyValue1 = yearlyValue1.slice(0,-6)+","+yearlyValue1.slice(-6);
+        //     yearlyValue2 = yearlyValue2.slice(0,-6)+","+yearlyValue2.slice(-6);
+        // };
+        // if(decimal=="." && dividend1.length > 6){
+        //     dividend1 = dividend1.slice(0,-6)+","+dividend1.slice(-6);
+        //     dividend2 = dividend2.slice(0,-6)+","+dividend2.slice(-6);
+        // };
+        // if(String(totalCommitment).length > 6 ){
+        //     totalCommitment = String(totalCommitment).slice(0,-4)+","+String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
+        // }
+        // else if(String(totalCommitment).length > 3 ){
+        //     totalCommitment = String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
+        // };
         
         display += `
         <tr  class="info">
             <td class="year">Year ${parseInt(i)+1}</td>      
             <td>${parseInt(i)+parseInt(age)}</td>
             <td class="money">$${totalCommitment}</td>      
-            <td class="money">$${yearlyValue1}</td>
-            <td class="money">$${dividend1}</td>     
-            <td class="money">$${yearlyValue2}</td>      
-            <td class="money">$${dividend2}</td>
+            <td class="money yV1">$${yearlyValue1Low} - $${yearlyValue1High}</td>
+            <td class="money">$${dividend1Low} - $${dividend1High}</td>     
+            <td class="money">$${yearlyValue2Low} - $${yearlyValue2High}</td>      
+            <td class="money">$${dividend2Low} - $${dividend2High}</td>
         </tr>
         `;
     }
@@ -146,35 +152,51 @@ function displayValues(yearly1,yearly2,mC){
 // mC is month contribute
 // iY is investYears
 function calculate(iY,mC){
-    let yearly1 = [];
-    let yearly2 = [];
-    let totalInvested1 = 0;
-    let totalInvested2 = 0;
+    let yearly1High = [];
+    let yearly2High = [];
+    let totalInvested1High = 0;
+    let totalInvested2High = 0;
+    let yearly1Low = [];
+    let yearly2Low = [];
+    let totalInvested1Low = 0;
+    let totalInvested2Low = 0;
     for (count=1;count<=iY;count++){
         if (count==1){
-            totalInvested1 = (mC*12) * welcomeBonus(mC)[0] * 0.975 * (returns()/100+1);
-            totalInvested2 = (mC*12) * welcomeBonus(mC)[1] * 0.975 * (returns()/100+1);
-            yearly1.push(totalInvested1);
-            yearly2.push(totalInvested2);
-            // console.log(`year ${count}`,totalInvested.toFixed(2));
+            totalInvested1High = (mC*12) * welcomeBonus(mC)[0] * 0.975 * 1.12;
+            totalInvested2High = (mC*12) * welcomeBonus(mC)[1] * 0.975 * 1.12;
+            yearly1High.push(totalInvested1High);
+            yearly2High.push(totalInvested2High);
+
+            totalInvested1Low = (mC*12) * welcomeBonus(mC)[0] * 0.975 * 1.04;
+            totalInvested2Low = (mC*12) * welcomeBonus(mC)[1] * 0.975 * 1.04;
+            yearly1Low.push(totalInvested1Low);
+            yearly2Low.push(totalInvested2Low);
         }
         else if (count<=10){
-            totalInvested1 = (yearly1[count-2]+(mC*12)) * 0.975 * (returns()/100+1);
-            totalInvested2 = (yearly2[count-2]+(mC*12)) * 0.975 * (returns()/100+1);
-            yearly1.push(totalInvested1);
-            yearly2.push(totalInvested2);
-            // console.log(`year ${count}`,totalInvested.toFixed(2));
+            totalInvested1High = (yearly1High[count-2]+(mC*12)) * 0.975 * 1.12;
+            totalInvested2High = (yearly2High[count-2]+(mC*12)) * 0.975 * 1.12;
+            yearly1High.push(totalInvested1High);
+            yearly2High.push(totalInvested2High);
+
+            totalInvested1Low = (yearly1Low[count-2]+(mC*12)) * 0.975 * 1.04;
+            totalInvested2Low = (yearly2Low[count-2]+(mC*12)) * 0.975 * 1.04;
+            yearly1Low.push(totalInvested1Low);
+            yearly2Low.push(totalInvested2Low);
         }
         else{
-            totalInvested1 = (yearly1[count-2]+(mC*12)) * 0.996 * (returns()/100+1);
-            totalInvested2 = (yearly2[count-2]+(mC*12)) * 0.996 * (returns()/100+1);
-            yearly1.push(totalInvested1);
-            yearly2.push(totalInvested2);
-            // console.log(`year ${count}`,totalInvested.toFixed(2));
+            totalInvested1High = (yearly1High[count-2]+(mC*12)) * 0.996 * 1.12;
+            totalInvested2High = (yearly2High[count-2]+(mC*12)) * 0.996 * 1.12;
+            yearly1High.push(totalInvested1High);
+            yearly2High.push(totalInvested2High);
+
+            totalInvested1Low = (yearly1Low[count-2]+(mC*12)) * 0.996 * 1.04;
+            totalInvested2Low = (yearly2Low[count-2]+(mC*12)) * 0.996 * 1.04;
+            yearly1Low.push(totalInvested1Low);
+            yearly2Low.push(totalInvested2Low);
         }
     }
     
-    displayValues(yearly1,yearly2,mC);
+    displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC);
     
 }
 

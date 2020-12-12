@@ -8,6 +8,10 @@ from selenium.webdriver import ActionChains
 import os
 from dotenv import load_dotenv
 load_dotenv()
+# import pandas to test against given data
+import pandas as pd
+
+import time
 
 
 class FinanceCalculatorTest(unittest.TestCase):
@@ -118,6 +122,12 @@ class FinanceCalculatorTest(unittest.TestCase):
     
 
     def test_data_output(self):
+        TESTING_DATA = r"{}".format(os.getenv("TESTING_DATA"))
+        data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="G")
+        # print(round(data.astype("float"),2))
+        # for index, row in data.iterrows():
+        #     print(round(row['0.04.1'],2))
+        
         self.fail("finish the test!")
 
 

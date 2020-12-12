@@ -31,12 +31,12 @@ function inputValidation(){
     let age = document.getElementById("age").value;
     // get display
     let display = document.getElementById("display-values");
-    if(investYears > 99){
-        display.innerHTML = `<h3>Please enter years to invest from 1 to 99 years</h3>`
-        return console.log("invest value error");
-    }
     if(age < 21){
         display.innerHTML = `<h3>You must be above 21 to apply for this investment</h3>`
+        return console.log("invest value error");
+    }
+    else if(investYears > 99 || investYears == ""){
+        display.innerHTML = `<h3>Please enter years to invest from 1 to 99 years</h3>`
         return console.log("invest value error");
     }
     else if(mthContribute < 200){

@@ -1,26 +1,4 @@
 document.getElementById("calculate").setAttribute("onclick","inputValidation()");
-// document.getElementById("returns").setAttribute("onchange","returns()");
-// sets initial returns display to 6%
-// document.getElementById("returnsValue").innerText = "6%";
-
-function returns(){
-    let returns = document.getElementById("returns").value;
-    // changes the returns display as per slider's value
-    document.getElementById("returnsValue").innerText = returns + "%";
-    return returns;
-}
-
-function checkPeriod(){
-    // checks the investment policy, 10yrs or 20yrs
-    let periods = document.getElementsByName("period");
-    let period = 0;
-    for(i=0;i<periods.length;i++){
-        if(periods[i].checked){
-            period = parseInt(periods[i].value);
-        }
-    }
-    return period;
-}
 
 function inputValidation(){
     // get years of investment 
@@ -84,6 +62,29 @@ function welcomeBonus(mC){
     return rates;
 }
 
+function placeCommas(value){
+    valueToString = String(value);
+    let decimal = valueToString.slice(-3,-2);
+    // if decimal - 
+    if (decimal == "."){
+        if (valueToString.length>9){
+            return valueToString.slice(0,-9)+","+valueToString.slice(-9,-6)+","+valueToString.slice(-6);
+        }
+        else if (valueToString.length>6){
+            return valueToString.slice(0,-6)+","+valueToString.slice(-6);
+        }
+    }
+    // if no decimal
+    else{
+        if (valueToString.length>6){
+            return valueToString.slice(0,-6)+","+valueToString.slice(-6,-3)+","+valueToString.slice(-3);
+        }
+        else if (valueToString.length>3){
+            return valueToString.slice(0,-3)+","+valueToString.slice(-3);
+        }
+    }
+}
+
 function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
     if(document.getElementsByTagName("table").length==0){
         document.getElementById("display-values").innerHTML = "<table></table>";
@@ -104,8 +105,6 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
     
     
     for(i in yearly1High){
-        // console.log(yearly1[0].toFixed(2).slice(-3,-2));
-        // let decimal = yearly1[0].toFixed(2).slice(-3,-2);
         let yearlyValue1High=yearly1High[i].toFixed(2);
         let yearlyValue2High=yearly2High[i].toFixed(2);
         let yearlyValue1Low=yearly1Low[i].toFixed(2);
@@ -117,23 +116,18 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
         let dividend1Low = ((yearly1Low[i]*1.04)/12).toFixed(2);
         let dividend2Low = ((yearly2Low[i]*1.04)/12).toFixed(2);
         let totalCommitment = (parseInt(i)+1)*(mC*12);
-        console.log(String(totalCommitment).length);
 
-        // if(decimal=="." && yearlyValue1.length > 6){
-        //     yearlyValue1 = yearlyValue1.slice(0,-6)+","+yearlyValue1.slice(-6);
-        //     yearlyValue2 = yearlyValue2.slice(0,-6)+","+yearlyValue2.slice(-6);
-        // };
-        // if(decimal=="." && dividend1.length > 6){
-        //     dividend1 = dividend1.slice(0,-6)+","+dividend1.slice(-6);
-        //     dividend2 = dividend2.slice(0,-6)+","+dividend2.slice(-6);
-        // };
-        // if(String(totalCommitment).length > 6 ){
-        //     totalCommitment = String(totalCommitment).slice(0,-4)+","+String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
-        // }
-        // else if(String(totalCommitment).length > 3 ){
-        //     totalCommitment = String(totalCommitment).slice(0,-3)+","+String(totalCommitment).slice(-3)
-        // };
-        
+        // place commas
+        yearlyValue1High = placeCommas(yearlyValue1High);
+        yearlyValue2High = placeCommas(yearlyValue2High);
+        yearlyValue1Low = placeCommas(yearlyValue1Low);
+        yearlyValue2Low = placeCommas(yearlyValue2Low);
+        dividend1High = placeCommas(dividend1High);
+        dividend2High = placeCommas(dividend2High);
+        dividend1Low = placeCommas(dividend1Low);
+        dividend2Low = placeCommas(dividend2Low);
+        totalCommitment = placeCommas(totalCommitment);
+
         display += `
         <tr  class="info">
             <td class="year">Year ${parseInt(i)+1}</td>      
@@ -184,18 +178,18 @@ function calculate(iY,mC){
             yearly2Low.push(totalInvested2Low);
         }
         else{
-            totalInvested1High = (yearly1High[count-2]+(mC*12)) * 0.996 * 1.12;
-            totalInvested2High = (yearly2High[count-2]+(mC*12)) * 0.996 * 1.12;
+            totalInvested1High = yearly1High[count-2] * 0.996 * 1.12;
+            totalInvested2High = yearly2High[count-2] * 0.996 * 1.12;
             yearly1High.push(totalInvested1High);
             yearly2High.push(totalInvested2High);
 
-            totalInvested1Low = (yearly1Low[count-2]+(mC*12)) * 0.996 * 1.04;
+            totalInvested1Low = yearly1Low[count-2] * 0.996 * 1.04;
             totalInvested2Low = (yearly2Low[count-2]+(mC*12)) * 0.996 * 1.04;
             yearly1Low.push(totalInvested1Low);
             yearly2Low.push(totalInvested2Low);
         }
     }
-    
+
     displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC);
     
 }

@@ -129,11 +129,11 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
         totalCommitment = placeCommas(totalCommitment);
 
         display += `
-        <tr  class="info">
+        <tr  class="info" id="locate">
             <td class="year">Year ${parseInt(i)+1}</td>      
             <td>${parseInt(i)+parseInt(age)}</td>
             <td class="money">$${totalCommitment}</td>      
-            <td class="money yV1">$${yearlyValue1Low} - $${yearlyValue1High}</td>
+            <td class="money ten">$${yearlyValue1Low} - $${yearlyValue1High}</td>
             <td class="money">$${dividend1Low} - $${dividend1High}</td>     
             <td class="money">$${yearlyValue2Low} - $${yearlyValue2High}</td>      
             <td class="money">$${dividend2Low} - $${dividend2High}</td>

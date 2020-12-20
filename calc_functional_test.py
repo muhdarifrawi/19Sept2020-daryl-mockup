@@ -13,6 +13,8 @@ from dotenv import load_dotenv
 load_dotenv()
 # import pandas to test against given data
 import pandas as pd
+#import numpy
+import numpy as np
 
 import time
 
@@ -127,9 +129,7 @@ class FinanceCalculatorTest(unittest.TestCase):
     def test_data_output(self):
         TESTING_DATA = r"{}".format(os.getenv("TESTING_DATA"))
         data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="G")
-        # print(round(data.astype("float"),2))
-        # for index, row in data.iterrows():
-        #     print(round(row['0.04.1'],2))
+        
 
         self.browser.get(os.getenv("TESTING_URL"))
         input_element_age = self.browser.find_element_by_id("age")
@@ -144,15 +144,30 @@ class FinanceCalculatorTest(unittest.TestCase):
         # find elements with multiple class
         data_10_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'ten')]")
         
+        data_list = []
+
         for each in data_10_y:
             values = each.get_attribute("innerText")
             end = values.find("-")
             values = values[1:end-1]
-            print(values)
-
+            values = values.replace(",","")
+            data_list.append(float(values))
+            # print(data_list)
         
-
+        data_2 = pd.DataFrame({"data_list":data_list})
+        # print(data_2)
+        compare_data = round(data.astype("float"),2).join(data_2)
+        # print(compare_data)
         
+        compare_data["output_check"] = np.where(compare_data["0.04.1"]==compare_data["data_list"],"pass","fail")
+        print("number of year:",len(data_list))
+        print(compare_data["output_check"])
+
+
+        number_of_passes = len(compare_data[compare_data["output_check"] == "pass"])
+
+        if len(data_list)!=number_of_passes:
+            self.fail("output data failed.")
         
         self.fail("finish the test!")
 

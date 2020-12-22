@@ -140,9 +140,9 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
             <td>${parseInt(i)+parseInt(age)}</td>
             <td class="money">$${totalCommitment}</td>      
             <td class="money ten">$${yearlyValue1Low} - $${yearlyValue1High}</td>
-            <td class="money ten-di">$${dividend1Low} - $${dividend1High}</td>     
+            <td class="money dione">$${dividend1Low} - $${dividend1High}</td>     
             <td class="money twenty">$${yearlyValue2Low} - $${yearlyValue2High}</td>      
-            <td class="money twenty-di">$${dividend2Low} - $${dividend2High}</td>
+            <td class="money ditwo">$${dividend2Low} - $${dividend2High}</td>
         </tr>
         `;
     }

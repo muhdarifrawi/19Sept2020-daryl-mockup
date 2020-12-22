@@ -129,92 +129,156 @@ class FinanceCalculatorTest(unittest.TestCase):
     def test_ten_year_low_data_output(self):
         TESTING_DATA = r"{}".format(os.getenv("TESTING_DATA"))
         il_data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="J")
+        di_data = pd.read_excel(TESTING_DATA,sheet_name="Divdend Income",skiprows=1,usecols="J")
+        # print(di_data)
         
         self.browser.get(os.getenv("TESTING_URL"))
         input_element_age = self.browser.find_element_by_id("age")
         input_element_age.send_keys("21")
         input_element_invest_years = self.browser.find_element_by_id("investYears")
-        input_element_invest_years.send_keys("10")
+        input_element_invest_years.send_keys("40")
         input_monthly_contribute = self.browser.find_element_by_id("mthContribute")
         input_monthly_contribute.send_keys("800")
         input_calculate = self.browser.find_element_by_id("calculate")
         input_calculate.send_keys(Keys.ENTER)
 
         # find elements with multiple class
-        data_10_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'ten')]")
+        il_data_10_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'ten')]")
         
-        data_list = []
+        il_data_list = []
 
-        for each in data_10_y:
+        for each in il_data_10_y:
             values = each.get_attribute("innerText")
             end = values.find("-")
             values = values[1:end-1]
             values = values.replace(",","")
-            data_list.append(float(values))
+            il_data_list.append(float(values))
             # print(data_list)
         
-        data_2 = pd.DataFrame({"data_list":data_list})
+        il_data_2 = pd.DataFrame({"data_list":il_data_list})
         # print(data_2)
-        compare_data = round(il_data.astype("float"),2).join(data_2)
-        # print(compare_data)
+        il_compare_data = round(il_data.astype("float"),2).join(il_data_2)
+        # print(il_compare_data)
         
-        compare_data["output_check"] = np.where(compare_data["0.04.2"]==compare_data["data_list"],"pass","fail")
-        print("number of year:",len(data_list))
-        print(compare_data["output_check"])
+        il_compare_data["output_check"] = np.where(il_compare_data["0.04.2"]==il_compare_data["data_list"],"pass","fail")
+        print("number of year:",len(il_data_list))
+        print(il_compare_data["output_check"])
 
 
-        number_of_passes = len(compare_data[compare_data["output_check"] == "pass"])
+        il_number_of_passes = len(il_compare_data[il_compare_data["output_check"] == "pass"])
 
-        if len(data_list)!=number_of_passes:
-            self.fail("output data failed.")
+        if len(il_data_list)!=il_number_of_passes:
+            self.fail("ten year (lower value) output data failed.")
         else:
             print("ten year (lower value) output data pass.")
+        
+        # check dividend
+        di_data_10_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'dione')]")
+        
+        di_data_list = []
+
+        for each in di_data_10_y:
+            values = each.get_attribute("innerText")
+            end = values.find("-")
+            values = values[1:end-1]
+            values = values.replace(",","")
+            di_data_list.append(float(values))
+        
+        # print("look ehre:",di_data_list)
+        
+        di_data_2 = pd.DataFrame({"data_list":di_data_list})
+        # print(di_data_2)
+        di_compare_data = round(di_data.astype("float"),2).join(di_data_2)
+        # print(di_compare_data)
+        
+        di_compare_data["output_check"] = np.where(di_compare_data["0.04.2"]==di_compare_data["data_list"],"pass","fail")
+        print("number of year:",len(di_data_list))
+        print(di_compare_data["output_check"])
+
+
+        di_number_of_passes = len(di_compare_data[di_compare_data["output_check"] == "pass"])
+
+        if len(di_data_list)!=di_number_of_passes:
+            self.fail("ten year dividend output data failed.")
+        else:
+            print("ten year dividend output data pass.")
 
     def test_twenty_year_low_data_output(self):
         TESTING_DATA = r"{}".format(os.getenv("TESTING_DATA"))
         il_data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="M")
-        # print("look here:",data)
+        di_data = pd.read_excel(TESTING_DATA,sheet_name="Divdend Income",skiprows=1,usecols="M")
+        # print(di_data)
         
-
         self.browser.get(os.getenv("TESTING_URL"))
         input_element_age = self.browser.find_element_by_id("age")
         input_element_age.send_keys("21")
         input_element_invest_years = self.browser.find_element_by_id("investYears")
-        input_element_invest_years.send_keys("10")
+        input_element_invest_years.send_keys("40")
         input_monthly_contribute = self.browser.find_element_by_id("mthContribute")
         input_monthly_contribute.send_keys("800")
         input_calculate = self.browser.find_element_by_id("calculate")
         input_calculate.send_keys(Keys.ENTER)
 
         # find elements with multiple class
-        data_20_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'twenty')]")
+        il_data_20_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'twenty')]")
         
-        data_list = []
+        il_data_list = []
 
-        for each in data_20_y:
+        for each in il_data_20_y:
             values = each.get_attribute("innerText")
             end = values.find("-")
             values = values[1:end-1]
             values = values.replace(",","")
-            data_list.append(float(values))
+            il_data_list.append(float(values))
             # print(data_list)
         
-        data_2 = pd.DataFrame({"data_list":data_list})
+        il_data_2 = pd.DataFrame({"data_list":il_data_list})
         # print(data_2)
-        compare_data = round(il_data.astype("float"),2).join(data_2)
-        # print(compare_data)
+        il_compare_data = round(il_data.astype("float"),2).join(il_data_2)
+        # print(il_compare_data)
         
-        compare_data["output_check"] = np.where(compare_data["0.04.3"]==compare_data["data_list"],"pass","fail")
-        print("number of year:",len(data_list))
-        print(compare_data["output_check"])
+        il_compare_data["output_check"] = np.where(il_compare_data["0.04.3"]==il_compare_data["data_list"],"pass","fail")
+        print("number of year:",len(il_data_list))
+        print(il_compare_data["output_check"])
 
 
-        number_of_passes = len(compare_data[compare_data["output_check"] == "pass"])
+        il_number_of_passes = len(il_compare_data[il_compare_data["output_check"] == "pass"])
 
-        if len(data_list)!=number_of_passes:
-            self.fail("output data failed.")
+        if len(il_data_list)!=il_number_of_passes:
+            self.fail("twenty year (lower value) output data failed.")
         else:
             print("twenty year (lower value) output data pass.")
+        
+        # check dividend
+        di_data_20_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'ditwo')]")
+        # print("look ehere:",di_data_20_y)
+        
+        di_data_list = []
+
+        for each in di_data_20_y:
+            values = each.get_attribute("innerText")
+            end = values.find("-")
+            values = values[1:end-1]
+            values = values.replace(",","")
+            di_data_list.append(float(values))
+            # print(di_data_list)
+        
+        di_data_2 = pd.DataFrame({"data_list":di_data_list})
+        # print(di_data_2)
+        di_compare_data = round(di_data.astype("float"),2).join(di_data_2)
+        # print(di_compare_data)
+        
+        di_compare_data["output_check"] = np.where(di_compare_data["0.04.3"]==di_compare_data["data_list"],"pass","fail")
+        print("number of year:",len(di_data_list))
+        print(di_compare_data["output_check"])
+
+
+        di_number_of_passes = len(di_compare_data[di_compare_data["output_check"] == "pass"])
+
+        if len(di_data_list)!=di_number_of_passes:
+            self.fail("twenty year dividend output data failed.")
+        else:
+            print("twenty year dividend output data pass.")
         
         self.fail("finish the test!")
 

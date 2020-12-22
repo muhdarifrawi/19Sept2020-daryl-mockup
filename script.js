@@ -73,6 +73,9 @@ function placeCommas(value){
         else if (valueToString.length>6){
             return valueToString.slice(0,-6)+","+valueToString.slice(-6);
         }
+        else{
+            return value
+        }
     }
     // if no decimal
     else{
@@ -81,6 +84,9 @@ function placeCommas(value){
         }
         else if (valueToString.length>3){
             return valueToString.slice(0,-3)+","+valueToString.slice(-3);
+        }
+        else{
+            return value
         }
     }
 }
@@ -110,11 +116,11 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
         let yearlyValue1Low=yearly1Low[i].toFixed(2);
         let yearlyValue2Low=yearly2Low[i].toFixed(2);
         // HIGH RETURNS = 1.12
-        let dividend1High = ((yearly1High[i]*1.12)/12).toFixed(2);
-        let dividend2High = ((yearly2High[i]*1.12)/12).toFixed(2);
+        let dividend1High = ((yearly1High[i]*0.12)/12).toFixed(2);
+        let dividend2High = ((yearly2High[i]*0.12)/12).toFixed(2);
         // LOW RETURNS = 1.04
-        let dividend1Low = ((yearly1Low[i]*1.04)/12).toFixed(2);
-        let dividend2Low = ((yearly2Low[i]*1.04)/12).toFixed(2);
+        let dividend1Low = ((yearly1Low[i]*0.04)/12).toFixed(2);
+        let dividend2Low = ((yearly2Low[i]*0.04)/12).toFixed(2);
         let totalCommitment = (parseInt(i)+1)*(mC*12);
 
         // place commas
@@ -134,9 +140,9 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
             <td>${parseInt(i)+parseInt(age)}</td>
             <td class="money">$${totalCommitment}</td>      
             <td class="money ten">$${yearlyValue1Low} - $${yearlyValue1High}</td>
-            <td class="money">$${dividend1Low} - $${dividend1High}</td>     
-            <td class="money">$${yearlyValue2Low} - $${yearlyValue2High}</td>      
-            <td class="money">$${dividend2Low} - $${dividend2High}</td>
+            <td class="money ten-di">$${dividend1Low} - $${dividend1High}</td>     
+            <td class="money twenty">$${yearlyValue2Low} - $${yearlyValue2High}</td>      
+            <td class="money twenty-di">$${dividend2Low} - $${dividend2High}</td>
         </tr>
         `;
     }

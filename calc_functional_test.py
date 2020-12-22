@@ -126,11 +126,10 @@ class FinanceCalculatorTest(unittest.TestCase):
     #         self.fail("test_for_monthly_contribute")
     
 
-    def test_data_output(self):
+    def test_ten_year_low_data_output(self):
         TESTING_DATA = r"{}".format(os.getenv("TESTING_DATA"))
-        data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="G")
+        il_data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="J")
         
-
         self.browser.get(os.getenv("TESTING_URL"))
         input_element_age = self.browser.find_element_by_id("age")
         input_element_age.send_keys("21")
@@ -156,10 +155,10 @@ class FinanceCalculatorTest(unittest.TestCase):
         
         data_2 = pd.DataFrame({"data_list":data_list})
         # print(data_2)
-        compare_data = round(data.astype("float"),2).join(data_2)
+        compare_data = round(il_data.astype("float"),2).join(data_2)
         # print(compare_data)
         
-        compare_data["output_check"] = np.where(compare_data["0.04.1"]==compare_data["data_list"],"pass","fail")
+        compare_data["output_check"] = np.where(compare_data["0.04.2"]==compare_data["data_list"],"pass","fail")
         print("number of year:",len(data_list))
         print(compare_data["output_check"])
 
@@ -168,6 +167,54 @@ class FinanceCalculatorTest(unittest.TestCase):
 
         if len(data_list)!=number_of_passes:
             self.fail("output data failed.")
+        else:
+            print("ten year (lower value) output data pass.")
+
+    def test_twenty_year_low_data_output(self):
+        TESTING_DATA = r"{}".format(os.getenv("TESTING_DATA"))
+        il_data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="M")
+        # print("look here:",data)
+        
+
+        self.browser.get(os.getenv("TESTING_URL"))
+        input_element_age = self.browser.find_element_by_id("age")
+        input_element_age.send_keys("21")
+        input_element_invest_years = self.browser.find_element_by_id("investYears")
+        input_element_invest_years.send_keys("10")
+        input_monthly_contribute = self.browser.find_element_by_id("mthContribute")
+        input_monthly_contribute.send_keys("800")
+        input_calculate = self.browser.find_element_by_id("calculate")
+        input_calculate.send_keys(Keys.ENTER)
+
+        # find elements with multiple class
+        data_20_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'twenty')]")
+        
+        data_list = []
+
+        for each in data_20_y:
+            values = each.get_attribute("innerText")
+            end = values.find("-")
+            values = values[1:end-1]
+            values = values.replace(",","")
+            data_list.append(float(values))
+            # print(data_list)
+        
+        data_2 = pd.DataFrame({"data_list":data_list})
+        # print(data_2)
+        compare_data = round(il_data.astype("float"),2).join(data_2)
+        # print(compare_data)
+        
+        compare_data["output_check"] = np.where(compare_data["0.04.3"]==compare_data["data_list"],"pass","fail")
+        print("number of year:",len(data_list))
+        print(compare_data["output_check"])
+
+
+        number_of_passes = len(compare_data[compare_data["output_check"] == "pass"])
+
+        if len(data_list)!=number_of_passes:
+            self.fail("output data failed.")
+        else:
+            print("twenty year (lower value) output data pass.")
         
         self.fail("finish the test!")
 

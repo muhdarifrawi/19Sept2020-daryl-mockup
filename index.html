@@ -15,11 +15,16 @@
         <label>Monthly Contribution: </label><br>
         <input type="number" id="mthContribute" required></input><br>
         <br>
+        <label>Expected Returns:</label><br>
+        <div class="slider">
+        <span id="returnsValue">4%</span>
+        <input type="range" min=4 max=8 id="returns"></input>
+        </div>
         <label>Horizons:</label><br>
-        <label>10 year</label>
-        <input type="checkbox" id="10y-horizon" value="10" checked></input>
-        <label>20 year</label>
-        <input type="checkbox" id="20y-horizon" value="20"></input>
+        <select id="horizons">
+            <option id="10y-horizon" value="10" selected>10 years</option>
+            <option id="20y-horizon" value="20">20 years</option>
+        </select>
     </div>
     <br>
     <button id="calculate">Calculate</button>

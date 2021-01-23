@@ -1,6 +1,12 @@
 document.getElementById("calculate").setAttribute("onclick","inputValidation()");
-document.getElementById("10y-horizon").setAttribute("onchange","show()");
-document.getElementById("20y-horizon").setAttribute("onchange","show()");
+document.getElementById("horizons").setAttribute("onchange","show()");
+document.getElementById("returns").setAttribute("onchange","sliderCheck()");
+
+function sliderCheck(){
+    let returns = document.getElementById("returns").value;
+    document.getElementById("returnsValue").innerText = returns + "%";
+    return returns
+}
 
 function inputValidation(){
     // get years of investment 
@@ -94,69 +100,53 @@ function placeCommas(value){
 }
 
 function show(){
-    let tensValues = document.getElementById("10y-horizon");
-    let twentyValues = document.getElementById("20y-horizon");
+    let horizons = document.getElementById("horizons").value;
     let headers = document.getElementsByTagName("th");
-    console.log(tensValues, twentyValues);
-    if(tensValues.checked==true){
-        if(headers[3].style.display == "none"){
-            headers[3].style.display = ""
-            headers[4].style.display = ""
-            for(each of document.getElementsByClassName("money ten")){
-                each.style.display = "";
-            }
-            for(each of document.getElementsByClassName("money dione")){
-                each.style.display = "";
-            }
+    console.log(horizons);
+    if(horizons=="10"){
+        // set ten years results visible
+        headers[3].style.display = ""
+        headers[4].style.display = ""
+        for(each of document.getElementsByClassName("money ten")){
+            each.style.display = "";
         }
-        else{
-            console.log("show function unexpected error.");
+        for(each of document.getElementsByClassName("money dione")){
+            each.style.display = "";
         }
+        // set twenty years results invisible
+        headers[5].style.display = "none"
+        headers[6].style.display = "none"
+        for(each of document.getElementsByClassName("money twenty")){
+            each.style.display = "none";
+        }
+        for(each of document.getElementsByClassName("money ditwo")){
+            each.style.display = "none";
+        }
+        
     }
-    else if(tensValues.checked==false){
-        if(headers[3].style.display == ""){
-            headers[3].style.display = "none"
-            headers[4].style.display = "none"
-            for(each of document.getElementsByClassName("money ten")){
-                each.style.display = "none";
-            }
-            for(each of document.getElementsByClassName("money dione")){
-                each.style.display = "none";
-            }
+    else if(horizons=="20"){
+        // set ten years results invisible
+        headers[3].style.display = "none"
+        headers[4].style.display = "none"
+        for(each of document.getElementsByClassName("money ten")){
+            each.style.display = "none";
         }
-        else{
-            console.log("show function unexpected error.");
+        for(each of document.getElementsByClassName("money dione")){
+            each.style.display = "none";
         }
+        //  set twenty years results invisible
+        headers[5].style.display = ""
+        headers[6].style.display = ""
+        for(each of document.getElementsByClassName("money twenty")){
+            each.style.display = "";
+        }
+        for(each of document.getElementsByClassName("money ditwo")){
+            each.style.display = "";
+        }
+        
     }
-    if(twentyValues.checked==true){
-        if(headers[5].style.display == "none"){
-            headers[5].style.display = ""
-            headers[6].style.display = ""
-            for(each of document.getElementsByClassName("money twenty")){
-                each.style.display = "";
-            }
-            for(each of document.getElementsByClassName("money ditwo")){
-                each.style.display = "";
-            }
-        }
-        else{
-            console.log("show function unexpected error.");
-        }
-    }
-    else if(twentyValues.checked==false){
-        if(headers[5].style.display == ""){
-            headers[5].style.display = "none"
-            headers[6].style.display = "none"
-            for(each of document.getElementsByClassName("money twenty")){
-                each.style.display = "none";
-            }
-            for(each of document.getElementsByClassName("money ditwo")){
-                each.style.display = "none";
-            }
-        }
-        else{
-            console.log("show function unexpected error.");
-        }
+    else{
+        console.log("horizons selection error.");
     }
 }
 

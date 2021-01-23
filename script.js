@@ -5,8 +5,9 @@ document.getElementById("returns").setAttribute("onchange","sliderCheck()");
 function sliderCheck(){
     let returns = document.getElementById("returns").value;
     document.getElementById("returnsValue").innerText = returns + "%";
-    return returns
+    return parseInt(returns)
 }
+sliderCheck()
 
 function inputValidation(){
     // get years of investment 
@@ -150,7 +151,7 @@ function show(){
     }
 }
 
-function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
+function displayValues(yearly1,yearly2,mC){
     if(document.getElementsByTagName("table").length==0){
         document.getElementById("display-values").innerHTML = "<table></table>";
     }
@@ -169,28 +170,18 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
     `;
     
     
-    for(i in yearly1High){
-        let yearlyValue1High=yearly1High[i].toFixed(2);
-        let yearlyValue2High=yearly2High[i].toFixed(2);
-        let yearlyValue1Low=yearly1Low[i].toFixed(2);
-        let yearlyValue2Low=yearly2Low[i].toFixed(2);
-        // HIGH RETURNS = 1.12
-        let dividend1High = ((yearly1High[i]*0.12)/12).toFixed(2);
-        let dividend2High = ((yearly2High[i]*0.12)/12).toFixed(2);
-        // LOW RETURNS = 1.04
-        let dividend1Low = ((yearly1Low[i]*0.04)/12).toFixed(2);
-        let dividend2Low = ((yearly2Low[i]*0.04)/12).toFixed(2);
+    for(i in yearly1){
+        let yearlyValue1=yearly1[i].toFixed(2);
+        let yearlyValue2=yearly2[i].toFixed(2);
+        let dividend1 = ((yearly1[i]*0.12)/12).toFixed(2);
+        let dividend2 = ((yearly2[i]*0.12)/12).toFixed(2);
         let totalCommitment = (parseInt(i)+1)*(mC*12);
 
         // place commas
-        yearlyValue1High = placeCommas(yearlyValue1High);
-        yearlyValue2High = placeCommas(yearlyValue2High);
-        yearlyValue1Low = placeCommas(yearlyValue1Low);
-        yearlyValue2Low = placeCommas(yearlyValue2Low);
-        dividend1High = placeCommas(dividend1High);
-        dividend2High = placeCommas(dividend2High);
-        dividend1Low = placeCommas(dividend1Low);
-        dividend2Low = placeCommas(dividend2Low);
+        yearlyValue1 = placeCommas(yearlyValue1);
+        yearlyValue2 = placeCommas(yearlyValue2);
+        dividend1 = placeCommas(dividend1);
+        dividend2 = placeCommas(dividend2);
         totalCommitment = placeCommas(totalCommitment);
 
         display += `
@@ -198,10 +189,10 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
             <td class="year">Year ${parseInt(i)+1}</td>      
             <td>${parseInt(i)+parseInt(age)}</td>
             <td class="money">$${totalCommitment}</td>      
-            <td class="money ten">$${yearlyValue1Low} - $${yearlyValue1High}</td>
-            <td class="money dione">$${dividend1Low} - $${dividend1High}</td>     
-            <td class="money twenty">$${yearlyValue2Low} - $${yearlyValue2High}</td>      
-            <td class="money ditwo">$${dividend2Low} - $${dividend2High}</td>
+            <td class="money ten">$${yearlyValue1}</td>
+            <td class="money dione">$${dividend1}</td>     
+            <td class="money twenty">$${yearlyValue2}</td>      
+            <td class="money ditwo">$${dividend2}</td>
         </tr>
         `;
     }
@@ -212,51 +203,36 @@ function displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC){
 // mC is month contribute
 // iY is investYears
 function calculate(iY,mC){
-    let yearly1High = [];
-    let yearly2High = [];
-    let totalInvested1High = 0;
-    let totalInvested2High = 0;
-    let yearly1Low = [];
-    let yearly2Low = [];
-    let totalInvested1Low = 0;
-    let totalInvested2Low = 0;
+    let yearly1 = [];
+    let yearly2 = [];
+    let totalInvested1 = 0;
+    let totalInvested2 = 0;
+    
     for (count=1;count<=iY;count++){
         if (count==1){
-            totalInvested1High = (mC*12) * welcomeBonus(mC)[0] * 0.975 * 1.12;
-            totalInvested2High = (mC*12) * welcomeBonus(mC)[1] * 0.975 * 1.12;
-            yearly1High.push(totalInvested1High);
-            yearly2High.push(totalInvested2High);
+            totalInvested1 = (mC*12) * welcomeBonus(mC)[0] * 0.975 * ((sliderCheck()*0.01)+1);
+            totalInvested2 = (mC*12) * welcomeBonus(mC)[1] * 0.975 * ((sliderCheck()*0.01)+1);
+            yearly1.push(totalInvested1);
+            yearly2.push(totalInvested2);
 
-            totalInvested1Low = (mC*12) * welcomeBonus(mC)[0] * 0.975 * 1.04;
-            totalInvested2Low = (mC*12) * welcomeBonus(mC)[1] * 0.975 * 1.04;
-            yearly1Low.push(totalInvested1Low);
-            yearly2Low.push(totalInvested2Low);
         }
         else if (count<=10){
-            totalInvested1High = (yearly1High[count-2]+(mC*12)) * 0.975 * 1.12;
-            totalInvested2High = (yearly2High[count-2]+(mC*12)) * 0.975 * 1.12;
-            yearly1High.push(totalInvested1High);
-            yearly2High.push(totalInvested2High);
+            totalInvested1 = (yearly1[count-2]+(mC*12)) * 0.975 * ((sliderCheck()*0.01)+1);
+            totalInvested2 = (yearly2[count-2]+(mC*12)) * 0.975 * ((sliderCheck()*0.01)+1);
+            yearly1.push(totalInvested1);
+            yearly2.push(totalInvested2);
 
-            totalInvested1Low = (yearly1Low[count-2]+(mC*12)) * 0.975 * 1.04;
-            totalInvested2Low = (yearly2Low[count-2]+(mC*12)) * 0.975 * 1.04;
-            yearly1Low.push(totalInvested1Low);
-            yearly2Low.push(totalInvested2Low);
         }
         else{
-            totalInvested1High = yearly1High[count-2] * 0.996 * 1.12;
-            totalInvested2High = yearly2High[count-2] * 0.996 * 1.12;
-            yearly1High.push(totalInvested1High);
-            yearly2High.push(totalInvested2High);
+            totalInvested1 = yearly1[count-2] * 0.996 * ((sliderCheck()*0.01)+1);
+            totalInvested2 = yearly2[count-2] * 0.996 * ((sliderCheck()*0.01)+1);
+            yearly1.push(totalInvested1);
+            yearly2.push(totalInvested2);
 
-            totalInvested1Low = yearly1Low[count-2] * 0.996 * 1.04;
-            totalInvested2Low = (yearly2Low[count-2]+(mC*12)) * 0.996 * 1.04;
-            yearly1Low.push(totalInvested1Low);
-            yearly2Low.push(totalInvested2Low);
         }
     }
 
-    displayValues(yearly1High,yearly2High,yearly1Low,yearly2Low,mC);
+    displayValues(yearly1,yearly2,mC);
     
 }
 

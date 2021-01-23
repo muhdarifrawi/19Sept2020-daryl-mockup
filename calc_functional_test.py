@@ -18,12 +18,13 @@ import numpy as np
 
 import time
 
-
+print("look here: ", os.getenv("BROWSER_DRIVER"))
 class FinanceCalculatorTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome(executable_path=r"{}".format(os.getenv("BROWSER_DRIVER")))
-    
+        # self.browser = webdriver.Chrome(executable_path=r"{}".format(os.getenv("BROWSER_DRIVER")))
+        self.browser = webdriver.Firefox()
+
     def tearDown(self):
         self.browser.quit()
 

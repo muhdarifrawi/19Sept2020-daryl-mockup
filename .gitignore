@@ -13,3 +13,9 @@ notes.md
 
 # env variables
 .env
+
+#ignore selenium-venv
+selenium-venv
+
+# ignore geckodriver.log
+geckodriver.log

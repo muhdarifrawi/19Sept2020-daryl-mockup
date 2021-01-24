@@ -17,8 +17,9 @@ import pandas as pd
 import numpy as np
 
 import time
+# import select
+from selenium.webdriver.support.ui import Select
 
-print("look here: ", os.getenv("BROWSER_DRIVER"))
 class FinanceCalculatorTest(unittest.TestCase):
 
     def setUp(self):
@@ -32,99 +33,99 @@ class FinanceCalculatorTest(unittest.TestCase):
         self.browser.get(os.getenv("TESTING_URL"))
         self.assertIn("Document", self.browser.title)
 
-    def test_for_age(self):
-        self.browser.get(os.getenv("TESTING_URL"))
-        input_element_age = self.browser.find_element_by_id("age")
-        input_calculate = self.browser.find_element_by_id("calculate")
-        # test for empty input
-        input_calculate.send_keys(Keys.ENTER)
-        inner_html = self.browser.find_element_by_id("display-values").get_attribute("innerHTML")
-        if inner_html == "<h3>You must be above 21 to apply for this investment</h3>":
-            print("test_for_age empty input pass")
-        else:
-            self.fail("test_for_age failed")
-        # test for younger than 21
-        input_element_age.send_keys("18")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>You must be above 21 to apply for this investment</h3>":
-            print("test_for_age lesser than 21 pass")
-        else:
-            self.fail("test_for_age failed")
-        # test for negative number
-        input_element_age.send_keys("-2")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>You must be above 21 to apply for this investment</h3>":
-            print("test_for_age negative number pass")
-        else:
-            self.fail("test_for_age failed")
+    # def test_for_age(self):
+    #     self.browser.get(os.getenv("TESTING_URL"))
+    #     input_element_age = self.browser.find_element_by_id("age")
+    #     input_calculate = self.browser.find_element_by_id("calculate")
+    #     # test for empty input
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     inner_html = self.browser.find_element_by_id("display-values").get_attribute("innerHTML")
+    #     if inner_html == "<h3>You must be above 21 to apply for this investment</h3>":
+    #         print("test_for_age empty input pass")
+    #     else:
+    #         self.fail("test_for_age failed")
+    #     # test for younger than 21
+    #     input_element_age.send_keys("18")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>You must be above 21 to apply for this investment</h3>":
+    #         print("test_for_age lesser than 21 pass")
+    #     else:
+    #         self.fail("test_for_age failed")
+    #     # test for negative number
+    #     input_element_age.send_keys("-2")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>You must be above 21 to apply for this investment</h3>":
+    #         print("test_for_age negative number pass")
+    #     else:
+    #         self.fail("test_for_age failed")
 
-    def test_for_years_invest(self):
-        self.browser.get(os.getenv("TESTING_URL"))
-        input_element_age = self.browser.find_element_by_id("age")
-        input_element_age.send_keys("21")
-        input_calculate = self.browser.find_element_by_id("calculate")
-        # test for empty input
-        input_calculate.send_keys(Keys.ENTER)
-        inner_html = self.browser.find_element_by_id("display-values").get_attribute("innerHTML")
-        if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
-            print("test_for_years_invest empty input pass")
-        else:
-            self.fail("test_for_years_invest")
-        # test for value above 99 
-        input_element_invest_years = self.browser.find_element_by_id("investYears")
-        input_element_invest_years.send_keys("100")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
-            print("test_for_years_invest input above 99 pass")
-        else:
-            self.fail("test_for_years_invest")
-        # test for zero
-        input_element_invest_years.send_keys("0")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
-            print("test_for_years_invest input zero pass")
-        else:
-            self.fail("test_for_years_invest")
-        # test for negative number
-        input_element_invest_years.send_keys("-1")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
-            print("test_for_years_invest input negative pass")
-        else:
-            self.fail("test_for_years_invest")
+    # def test_for_years_invest(self):
+    #     self.browser.get(os.getenv("TESTING_URL"))
+    #     input_element_age = self.browser.find_element_by_id("age")
+    #     input_element_age.send_keys("21")
+    #     input_calculate = self.browser.find_element_by_id("calculate")
+    #     # test for empty input
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     inner_html = self.browser.find_element_by_id("display-values").get_attribute("innerHTML")
+    #     if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
+    #         print("test_for_years_invest empty input pass")
+    #     else:
+    #         self.fail("test_for_years_invest")
+    #     # test for value above 99 
+    #     input_element_invest_years = self.browser.find_element_by_id("investYears")
+    #     input_element_invest_years.send_keys("100")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
+    #         print("test_for_years_invest input above 99 pass")
+    #     else:
+    #         self.fail("test_for_years_invest")
+    #     # test for zero
+    #     input_element_invest_years.send_keys("0")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
+    #         print("test_for_years_invest input zero pass")
+    #     else:
+    #         self.fail("test_for_years_invest")
+    #     # test for negative number
+    #     input_element_invest_years.send_keys("-1")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>Please enter years to invest from 1 to 99 years</h3>":
+    #         print("test_for_years_invest input negative pass")
+    #     else:
+    #         self.fail("test_for_years_invest")
     
-    def test_for_monthly_contribute(self):
-        self.browser.get(os.getenv("TESTING_URL"))
-        input_element_age = self.browser.find_element_by_id("age")
-        input_element_age.send_keys("21")
-        input_element_invest_years = self.browser.find_element_by_id("investYears")
-        input_element_invest_years.send_keys("10")
-        input_calculate = self.browser.find_element_by_id("calculate")
-        input_calculate.send_keys(Keys.ENTER)
-        inner_html = self.browser.find_element_by_id("display-values").get_attribute("innerHTML")
-        if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
-            print("test_for_monthly_contribute input empty pass")
-        else:
-            self.fail("test_for_monthly_contribute")
-        input_monthly_contribute = self.browser.find_element_by_id("mthContribute")
-        input_monthly_contribute.send_keys("199")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
-            print("test_for_monthly_contribute input lower than 200 pass")
-        else:
-            self.fail("test_for_monthly_contribute")
-        input_monthly_contribute.send_keys("0")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
-            print("test_for_monthly_contribute input zero pass")
-        else:
-            self.fail("test_for_monthly_contribute")
-        input_monthly_contribute.send_keys("-1")
-        input_calculate.send_keys(Keys.ENTER)
-        if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
-            print("test_for_monthly_contribute negative input pass")
-        else:
-            self.fail("test_for_monthly_contribute")
+    # def test_for_monthly_contribute(self):
+    #     self.browser.get(os.getenv("TESTING_URL"))
+    #     input_element_age = self.browser.find_element_by_id("age")
+    #     input_element_age.send_keys("21")
+    #     input_element_invest_years = self.browser.find_element_by_id("investYears")
+    #     input_element_invest_years.send_keys("10")
+    #     input_calculate = self.browser.find_element_by_id("calculate")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     inner_html = self.browser.find_element_by_id("display-values").get_attribute("innerHTML")
+    #     if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
+    #         print("test_for_monthly_contribute input empty pass")
+    #     else:
+    #         self.fail("test_for_monthly_contribute")
+    #     input_monthly_contribute = self.browser.find_element_by_id("mthContribute")
+    #     input_monthly_contribute.send_keys("199")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
+    #         print("test_for_monthly_contribute input lower than 200 pass")
+    #     else:
+    #         self.fail("test_for_monthly_contribute")
+    #     input_monthly_contribute.send_keys("0")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
+    #         print("test_for_monthly_contribute input zero pass")
+    #     else:
+    #         self.fail("test_for_monthly_contribute")
+    #     input_monthly_contribute.send_keys("-1")
+    #     input_calculate.send_keys(Keys.ENTER)
+    #     if inner_html == "<h3>Please enter a minimum value of 200 for monthly contributions</h3>":
+    #         print("test_for_monthly_contribute negative input pass")
+    #     else:
+    #         self.fail("test_for_monthly_contribute")
     
 
     def test_ten_year_low_data_output(self):
@@ -134,27 +135,41 @@ class FinanceCalculatorTest(unittest.TestCase):
         # print(di_data)
         
         self.browser.get(os.getenv("TESTING_URL"))
+        # set age
         input_element_age = self.browser.find_element_by_id("age")
         input_element_age.send_keys("21")
+        # set years to invest 
         input_element_invest_years = self.browser.find_element_by_id("investYears")
         input_element_invest_years.send_keys("40")
+        # set monthly contribution
         input_monthly_contribute = self.browser.find_element_by_id("mthContribute")
         input_monthly_contribute.send_keys("800")
+        # set slider
+        # 4 = (-80,0), 5 = (-40,0), 6 = (0,0), 7 = (40,0), 8 = (80,0)
+        slider = self.browser.find_element_by_id("returns")
+        move = ActionChains(self.browser)
+        move.click_and_hold(slider).move_by_offset(-80,0).release().perform()
+        # set horizons value
+        select = Select(self.browser.find_element_by_id("horizons"))
+        select.select_by_value("10")
+        time.sleep(3)
+        # calculate
         input_calculate = self.browser.find_element_by_id("calculate")
         input_calculate.send_keys(Keys.ENTER)
 
-        # find elements with multiple class
+        # find elements with multiple class. il_data means illlustrated data
         il_data_10_y = self.browser.find_elements_by_xpath("//td[contains(@class, 'money') and contains(@class, 'ten')]")
         
         il_data_list = []
 
         for each in il_data_10_y:
             values = each.get_attribute("innerText")
-            end = values.find("-")
-            values = values[1:end-1]
+            end = len(values)
+            values = values[1:end]
             values = values.replace(",","")
             il_data_list.append(float(values))
-            # print(data_list)
+        
+        print("il_data_list: \n",il_data_list)
         
         il_data_2 = pd.DataFrame({"data_list":il_data_list})
         # print(data_2)
@@ -162,8 +177,8 @@ class FinanceCalculatorTest(unittest.TestCase):
         # print(il_compare_data)
         
         il_compare_data["output_check"] = np.where(il_compare_data["0.04.2"]==il_compare_data["data_list"],"pass","fail")
-        print("number of year:",len(il_data_list))
-        print(il_compare_data["output_check"])
+        print("number of year: \n",len(il_data_list))
+        print("il compare data output check: \n",il_compare_data["output_check"])
 
 
         il_number_of_passes = len(il_compare_data[il_compare_data["output_check"] == "pass"])
@@ -180,17 +195,17 @@ class FinanceCalculatorTest(unittest.TestCase):
 
         for each in di_data_10_y:
             values = each.get_attribute("innerText")
-            end = values.find("-")
-            values = values[1:end-1]
+            end = len(values)
+            values = values[1:end]
             values = values.replace(",","")
             di_data_list.append(float(values))
         
         # print("look ehre:",di_data_list)
         
         di_data_2 = pd.DataFrame({"data_list":di_data_list})
-        # print(di_data_2)
+        print("di_data_2: \n",di_data_2)
         di_compare_data = round(di_data.astype("float"),2).join(di_data_2)
-        # print(di_compare_data)
+        print("di_compare_data: \n",di_compare_data)
         
         di_compare_data["output_check"] = np.where(di_compare_data["0.04.2"]==di_compare_data["data_list"],"pass","fail")
         print("number of year:",len(di_data_list))
@@ -203,7 +218,7 @@ class FinanceCalculatorTest(unittest.TestCase):
             self.fail("ten year dividend output data failed.")
         else:
             print("ten year dividend output data pass.")
-
+    # ------------------------------------------- below this is the twenty year data checks
     def test_twenty_year_low_data_output(self):
         TESTING_DATA = r"{}".format(os.getenv("TESTING_DATA"))
         il_data = pd.read_excel(TESTING_DATA,sheet_name="Illustrated Values",skiprows=1,usecols="M")

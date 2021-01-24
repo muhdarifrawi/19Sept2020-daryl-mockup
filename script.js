@@ -152,7 +152,6 @@ function show(){
 }
 
 function displayValues(yearly1,yearly2,mC){
-    console.log("yearly1: ",yearly1);
     if(document.getElementsByTagName("table").length==0){
         document.getElementById("display-values").innerHTML = "<table></table>";
     }
@@ -174,8 +173,8 @@ function displayValues(yearly1,yearly2,mC){
     for(i in yearly1){
         let yearlyValue1=yearly1[i].toFixed(2);
         let yearlyValue2=yearly2[i].toFixed(2);
-        let dividend1 = ((yearly1[i]*(sliderCheck()*0.01))/12).toFixed(2);
-        let dividend2 = ((yearly2[i]*(sliderCheck()*0.01))/12).toFixed(2);
+        let dividend1 = ((yearly1[i]*0.04)/12).toFixed(2);
+        let dividend2 = ((yearly2[i]*0.04)/12).toFixed(2);
         let totalCommitment = (parseInt(i)+1)*(mC*12);
 
         // place commas
@@ -226,7 +225,7 @@ function calculate(iY,mC){
         }
         else{
             totalInvested1 = yearly1[count-2] * 0.996 * ((sliderCheck()*0.01)+1);
-            totalInvested2 = yearly2[count-2] * 0.996 * ((sliderCheck()*0.01)+1);
+            totalInvested2 = (yearly2[count-2]+(mC*12)) * 0.996 * ((sliderCheck()*0.01)+1);
             yearly1.push(totalInvested1);
             yearly2.push(totalInvested2);
 

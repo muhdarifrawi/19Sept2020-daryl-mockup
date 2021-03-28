@@ -173,8 +173,9 @@ function displayValues(yearly1,yearly2,mC){
     for(i in yearly1){
         let yearlyValue1=yearly1[i].toFixed(2);
         let yearlyValue2=yearly2[i].toFixed(2);
-        let dividend1 = ((yearly1[i]*0.04)/12).toFixed(2);
-        let dividend2 = ((yearly2[i]*0.04)/12).toFixed(2);
+        // Projected dividend rate initially 4% (0.04) changed to 5% (0.05)
+        let dividend1 = ((yearly1[i]*0.05)/12).toFixed(2);
+        let dividend2 = ((yearly2[i]*0.05)/12).toFixed(2);
         let totalCommitment = (parseInt(i)+1)*(mC*12);
 
         // place commas
